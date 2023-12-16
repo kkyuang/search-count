@@ -138,7 +138,7 @@ app.get('/search', (req, res) => {
     var qu = req.query.q.trim()
 
     //공백일 시 무효
-    if(qu == '' || qu.includes(String.fromCharCode(parseInt('\d200b',16)))){
+    if(qu == '' || qu.includes(String.fromCharCode(parseInt('\d200d',16)))){
         return res.redirect('/')
     }
 
