@@ -31,13 +31,16 @@ keywords = {}
 ranks = []
 
 //검색 시도시
-function searchKeyword(keyword){
+function searchKeyword(keyword, ip){
     //키워드가 존재하지 않을 때
     if(Object.keys(keywords).indexOf(keyword) == -1){
-        keywords[keyword] = {'count': 1}
+        keywords[keyword] = {'count': 1, 'ip': [ip]}
     }
     else{ //키워드가 이미 존재할 때
-        keywords[keyword]['count']+=1
+        if(keywords[keyword]['ip'].indexOf(ip) == -1){
+            keywords[keyword]['count']+=1
+            keywords[keyword]['ip'][keywords[keyword]['ip'].length] = ip
+        }
     }
 }
 
@@ -139,7 +142,9 @@ app.get('/search', (req, res) => {
         return res.redirect('/')
     }
 
-    searchKeyword(qu)
+    console.log(req.connection.remoteAddress)
+
+    searchKeyword(qu, req.connection.remoteAddress)
     sortKeywords()
     saveDB('search01', keywords)
 
